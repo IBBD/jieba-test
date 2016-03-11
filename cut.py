@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+#
+# 分词测试程序
 
 import sys
 import jieba
