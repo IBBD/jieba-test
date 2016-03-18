@@ -3,10 +3,13 @@
 #
 # 关键词提取测试程序
 
-import sys
 import jieba
 import jieba.analyse
 from optparse import OptionParser
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 USAGE = "usage:    python extract-tags.py [file name] -k [top k]"
 
@@ -21,13 +24,19 @@ if len(args) < 1:
 file_name = args[0]
 
 if opt.topK is None:
-    topK = 10
+    topK = 50
 else:
     topK = int(opt.topK)
 
 content = open(file_name, 'rb').read()
+print content
+dict_content = open('./dict/dict.txt.big', 'rb+').read()
 jieba.analyse.set_stop_words("dict/stop_words.txt")
 jieba.analyse.set_idf_path("dict/idf.txt.big")
 tags = jieba.analyse.extract_tags(content, topK=topK, withWeight=True)
 for t in tags:
-    print "%s: %f\n" % t
+    flag = dict_content.find(t[0])
+    if flag < 0:
+        print "=====> %s : %f" % t
+    else:
+        print "%s : %f" % t
