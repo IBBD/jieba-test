@@ -33,8 +33,24 @@ print content
 dict_content = open('./dict/dict.txt.big', 'rb+').read()
 jieba.analyse.set_stop_words("dict/stop_words.txt")
 jieba.analyse.set_idf_path("dict/idf.txt.big")
-tags = jieba.analyse.extract_tags(content, topK=topK, withWeight=True)
+tags = jieba.analyse.extract_tags(content,
+                                  topK=topK,
+                                  withWeight=True,
+                                  allowPOS=('ns', 'n', 'vn', 'v'))
 for t in tags:
+    flag = dict_content.find(t[0])
+    if flag < 0:
+        print "=====> %s : %f" % t
+    else:
+        print "%s : %f" % t
+
+print "*" * 40
+
+textRank_tags = jieba.analyse.textrank(content,
+                                       topK=topK,
+                                       withWeight=True,
+                                       allowPOS=('ns', 'n', 'vn', 'v'))
+for t in textRank_tags:
     flag = dict_content.find(t[0])
     if flag < 0:
         print "=====> %s : %f" % t
