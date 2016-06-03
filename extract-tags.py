@@ -28,6 +28,8 @@ if opt.topK is None:
 else:
     topK = int(opt.topK)
 
+#allowPOS = ('ns', 'n', 'vn', 'v')
+allowPOS = ('ns', 'n', 'vn', 'nr', 'nz')
 content = open(file_name, 'rb').read()
 print content
 dict_content = open('./dict/dict.txt.big', 'rb+').read()
@@ -36,7 +38,7 @@ jieba.analyse.set_idf_path("dict/idf.txt.big")
 tags = jieba.analyse.extract_tags(content,
                                   topK=topK,
                                   withWeight=True,
-                                  allowPOS=('ns', 'n', 'vn', 'v'))
+                                  allowPOS=allowPOS)
 for t in tags:
     flag = dict_content.find(t[0])
     if flag < 0:
@@ -49,7 +51,7 @@ print "*" * 40
 textRank_tags = jieba.analyse.textrank(content,
                                        topK=topK,
                                        withWeight=True,
-                                       allowPOS=('ns', 'n', 'vn', 'v'))
+                                       allowPOS=allowPOS)
 for t in textRank_tags:
     flag = dict_content.find(t[0])
     if flag < 0:
